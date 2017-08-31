@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+import Header from '../../components/Header/Header';
+import SearchBar from '../../components/SearchBar/SearchBar';
+
 import './Home.css';
 
 class Home extends Component {
@@ -10,7 +13,12 @@ class Home extends Component {
   render() {
     return (
         <div className="main">
-          {this.componentState.title}
+          <div className="header">
+            <Header />
+          </div>
+          <div className="content">
+            <SearchBar />
+          </div>
         </div>
     );
   }

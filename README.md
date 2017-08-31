@@ -1,4 +1,6 @@
-# An app for searching GitHub user repositories.
+# GitHub finder
+
+## An app for finding GitHub user repositories.
 
 #### Install dependencies
 ```
