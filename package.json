@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "custom-react-scripts": "^0.2.0",
+    "isomorphic-fetch": "^2.2.1",
     "mobx": "^3.2.2",
     "mobx-collection-store": "^1.4.2",
     "mobx-jsonapi-store": "^4.0.0-beta.2",
