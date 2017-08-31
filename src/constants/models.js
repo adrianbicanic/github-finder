@@ -1,5 +1,5 @@
 export default {
-  DEFAULT_USER: 'defaultUser',
+  DEFAULT_USER_PREVIEW: 'defaultUserPreview',
   SEARCH_QUERY: 'searchQuery',
-  USER: 'user',
-}
+  USER_PREVIEW: 'userPreview'
+};

@@ -1,1 +1,0 @@
-import {gitHubApiService} from 'services';

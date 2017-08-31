@@ -10,6 +10,6 @@ const SearchBar = () => {
       name="search"
     />
   );
-}
+};
 
 export default SearchBar;

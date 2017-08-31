@@ -1,26 +1,20 @@
 import * as fetch from 'isomorphic-fetch';
 
 class GitHubApi {
-  static baseUrl = 'https://api.github.com'
-  
-  static defaultRequestHeaders = {
-
-  }
-
-  search(requestBody, url) {
-    
-  }
-
-  read(requestBody, url) {
+  find(url) {
     const method = 'GET';
 
-    const requestInit = {
-      defaultRequestHeaders,
-      method,
+    const headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
     };
 
-    return fetch(url, requestInit)
-    .then((response) => {
+    const requestInit = {
+      headers,
+      method
+    };
+
+    return fetch(url, requestInit).then((response) => {
       if (response.ok) {
         return response.json();
       }
