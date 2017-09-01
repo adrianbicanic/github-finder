@@ -35,8 +35,6 @@ class Home extends Component {
 
         this.componentState.searchQuery = e.target.value;
 
-        console.log(searchResult)
-
         // if (searchResult.hasOwnPropery('error')) {
         //   this.componentState.previewTitle = 'ERROR';
 

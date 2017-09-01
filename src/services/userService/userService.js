@@ -26,6 +26,59 @@ class UserService {
     return response;
   }
 
+  async getUserProfile(username) {
+    const requestUrl = `https://api.github.com/users/${username}`;
+
+    const response = await gitHubApi.find(requestUrl);
+
+    if (response && response.hasOwnProperty('id')) {
+      dataCollection.remove(models.USER_PROFILE);
+      
+
+      const user = Object.assign({}, {
+        avatarUrl: response.avatar_url,
+        bio: response.bio,
+        company: response.company,
+        followers: response.followers,
+        gitHubUrl: response.html_url,
+        name: response.name,
+        publicRepos: response.public_repos,
+        reposUrl: response.repos_url,
+        username: response.login
+      });
+
+      dataCollection.add(user, models.USER_PROFILE);
+    }
+
+    return response;
+  }
+
+  async getUserRepos(username) {
+    const requestUrl = `https://api.github.com/users/${username}/repos`;
+
+    const response = await gitHubApi.find(requestUrl);
+    
+    if (response && response.hasOwnProperty('items')) {
+      const repositories = response.items.slice().map((item) => {
+        const repository = {
+          bio: item,
+          description: item.description,
+          forks: item.forks_count,
+          gitHubUrl: item.html_url,
+          name: item.name,
+          stars: item.stargazers_count,
+          watchers: item.watchers_count
+        };
+
+        return repository;
+      });
+
+      dataCollection.add(repositories, models.USER_REPOSITORY);
+    }
+
+    return response;
+  }
+
   async findUsers(nameQuery) {
     const requestUrl = `https://api.github.com/search/users?q=${nameQuery}`;
 
