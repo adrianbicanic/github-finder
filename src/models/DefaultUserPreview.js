@@ -1,4 +1,4 @@
-import {UserPreview} from './';
+import {default as UserPreview} from './UserPreview';
 
 import models from '../constants/models';
 

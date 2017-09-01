@@ -10,15 +10,20 @@ import {default as Button} from 'react-toolbox/lib/button/Button';
 import './PreviewCardGrid.css';
 
 const PreviewCardGrid = (props) => {
-  console.log('props', props)
+  console.log('typeof users', props.users);
+  const users = props.users.slice();
+
   return (
     <div className="main">
       <h3 className="title">{props.title}</h3>
       <div className="grid">
         {
-          props.users
-            ? props.users.map((user) => (
-              <div key={user.id} className="item">
+          users
+            ? users.map((user) => (
+              <div
+                key={user.id}
+                className="item"
+                onClick={() => props.onCardClick.call(null, user.username)}>
                 <Card>
                   <CardMedia
                     aspectRatio="square"
@@ -27,9 +32,6 @@ const PreviewCardGrid = (props) => {
                   <CardTitle
                     subtitle={`@${user.username}`}
                   />
-                  <CardActions>
-                    <Button label="View profile" />
-                  </CardActions>
                 </Card>
               </div>
             ))

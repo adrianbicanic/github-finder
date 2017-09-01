@@ -61,7 +61,7 @@ class UserService {
     if (response && response.hasOwnProperty('items')) {
       const repositories = response.items.slice().map((item) => {
         const repository = {
-          bio: item,
+          bio: item.bio,
           description: item.description,
           forks: item.forks_count,
           gitHubUrl: item.html_url,
@@ -85,11 +85,12 @@ class UserService {
     const response = await gitHubApi.find(requestUrl);
 
     if (response && response.hasOwnProperty('items')) {
-      dataCollection.remove('userPreview');
+      dataCollection.removeAll(models.USER_PREVIEW);
+
+      dataCollection.removeAll(models.USER_PREVIEW);
 
       console.log('isRemoved', dataCollection.userPreviews);
       console.log('how many is defaulr', dataCollection.defaultUserPreviews);
-      
 
       const users = response.items.slice(0, 40).map((item) => {
         const user = {

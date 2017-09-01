@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {browserHistory} from 'react-router';
 import {action, observable, runInAction} from 'mobx';
 import {observer} from 'mobx-react';
 
@@ -15,41 +16,70 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.onKeyUpHandler = this.onKeyUpHandler.bind(this);
+    this.onCardClickHandler = this.onCardClickHandler.bind(this);
 
     this.searchTimeoutId = null;
-    this.componentState = {
-      previewTitle: previewTitle.DEFAULT,
-      searchQuery: null
-    };
   }
 
   @observable componentState = {
-    previewTitle: null,
+    previewTitle: previewTitle.DEFAULT,
     searchQuery: null
   };
 
-  @action onKeyUpHandler(e) {
+  @action async onKeyUpHandler(e) {
     if (e.key === 'Enter') {
       if (e.target.value) {
-        const searchResult = userService.findUsers(this.componentState.searchQuery);
+        runInAction(() => {
+          this.componentState.searchQuery = e.target.value;
+        });
+        
 
-        this.componentState.searchQuery = e.target.value;
+        const searchResult = await userService.findUsers(this.componentState.searchQuery);
 
-        // if (searchResult.hasOwnPropery('error')) {
-        //   this.componentState.previewTitle = 'ERROR';
+        console.log('searchResult', searchResult)
 
-        //   return;
-        // }
+        if (searchResult && searchResult.hasOwnProperty('error')) {
+          runInAction(() => {
+            this.componentState.previewTitle = 'ERROR';
+          });
 
-        this.componentState.previewTitle = dataCollection.userPreviews
-          ? previewTitle.SEARCH_RESULT_TRUE
-          : previewTitle.SEARCH_RESULT_FALSE;
+          return;
+        }
+
+        runInAction(() => {
+          this.componentState.previewTitle = dataCollection.userPreviews
+            ? previewTitle.SEARCH_RESULT_TRUE
+            : previewTitle.SEARCH_RESULT_FALSE;
+        });
+        
 
         return;
       }
       
-      this.componentState.searchQuery = null;
+      runInAction(() => {
+        this.componentState.searchQuery = null;
+      });
     }
+  }
+
+  @action async onCardClickHandler(username) {
+    console.log('---in card click handler---')
+    const user = await userService.getUserProfile(username);
+    console.log('user', user)
+
+    const userRepos = user && user.id
+      ? await userService.getUserRepos(user.username)
+      : null;
+
+    console.log('userRepos', userRepos)
+
+    if (userRepos && !userRepos.error) {
+      browserHistory.push(`profile/${username}`);
+      return;
+    }
+    
+    browserHistory.push('/');
+    
   }
 
   render() {
@@ -67,6 +97,7 @@ class Home extends Component {
           <PreviewCardGrid
             title={this.componentState.previewTitle}
             users={users}
+            onCardClick={this.onCardClickHandler}
           />
         </div>
       </div>
