@@ -19,12 +19,7 @@ class GitHubApi {
         return response.json();
       }
 
-      // Send original error to the error handling function
-      const apiErrorMessage = response
-        .headers
-        .get('x-api-message');
-
-      return {error: decodeURIComponent(apiErrorMessage)};
+      return {errorCode: response.status};
     });
   }
 }

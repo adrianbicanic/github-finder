@@ -9,6 +9,10 @@ class DataCollection extends Collection {
   @computed get defaultUserPreviews() {
     return this.findAll(models.DEFAULT_USER_PREVIEW);
   }
+
+  @computed get userPreviews() {
+    return this.findAll(models.USER_PREVIEW);
+  }
 }
 
 DataCollection.types = [DefaultUserPreview, UserPreview];

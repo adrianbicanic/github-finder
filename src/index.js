@@ -8,10 +8,14 @@ import theme from './toolbox/theme';
 import Home from './containers/Home/Home';
 import registerServiceWorker from './registerServiceWorker';
 
+import {userService} from './services';
+
 import './toolbox/theme.css';
 import './index.css';
 
 useStrict(true);
+
+userService.getDefaultPreviews();
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

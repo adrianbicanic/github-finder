@@ -10,17 +10,17 @@ class UserService {
     const response = await gitHubApi.find(requestUrl);
 
     if (response && response.hasOwnProperty('items')) {
-      const defaultUserPreviews = response.items.slice(0, 16).map((item) => {
-        const defaultUserPreview = {
+      const defaultUsers = response.items.slice(0, 16).map((item) => {
+        const defaultUser = {
           avatarUrl: item.avatar_url,
           url: item.url,
           username: item.login
         };
 
-        return defaultUserPreview;
+        return defaultUser;
       });
 
-      dataCollection.add(defaultUserPreviews, models.DEFAULT_USER_PREVIEW);
+      dataCollection.add(defaultUsers, models.DEFAULT_USER_PREVIEW);
     }
 
     return response;
@@ -32,17 +32,23 @@ class UserService {
     const response = await gitHubApi.find(requestUrl);
 
     if (response && response.hasOwnProperty('items')) {
-      const defaultUserPreviews = response.items.slice(0, 16).map((item) => {
-        const defaultUserPreview = {
+      dataCollection.remove('userPreview');
+
+      console.log('isRemoved', dataCollection.userPreviews);
+      console.log('how many is defaulr', dataCollection.defaultUserPreviews);
+      
+
+      const users = response.items.slice(0, 40).map((item) => {
+        const user = {
           avatarUrl: item.avatar_url,
           url: item.url,
           username: item.login
         };
 
-        return defaultUserPreview;
+        return user;
       });
 
-      dataCollection.add(defaultUserPreviews, models.DEFAULT_USER_PREVIEW);
+      dataCollection.add(users, models.USER_PREVIEW);
     }
 
     return response;

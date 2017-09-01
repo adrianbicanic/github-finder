@@ -1,0 +1,15 @@
+.main {
+  width: 100%;
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.item {
+  flex-basis: 20%;
+  padding: 20px;
+}
