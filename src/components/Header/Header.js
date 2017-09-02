@@ -1,4 +1,5 @@
 import React from 'react';
+import {browserHistory} from 'react-router';
 import PropTypes from 'prop-types';
 
 import AppBar from 'react-toolbox/lib/app_bar/AppBar';
@@ -6,8 +7,9 @@ import AppBar from 'react-toolbox/lib/app_bar/AppBar';
 const Header = (props) => (
   <div>
     <AppBar
-      leftIcon="A"
-      onLeftIconClick={props.onBackButtonClick}
+      leftIcon={props.leftIcon}
+      fixed
+      onLeftIconClick={() => browserHistory.push('')}
       className="app-bar"
       title="GitHub Finder"
     />

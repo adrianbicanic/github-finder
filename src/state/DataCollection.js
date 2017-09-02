@@ -11,7 +11,7 @@ class DataCollection extends Collection {
   }
 
   @computed get userProfile() {
-    return this.findAll(models.USER_PROFILE);
+    return this.find(models.USER_PROFILE);
   }
 
   @computed get userPreviews() {

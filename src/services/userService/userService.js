@@ -32,7 +32,7 @@ class UserService {
     const response = await gitHubApi.find(requestUrl);
 
     if (response && response.hasOwnProperty('id')) {
-      dataCollection.remove(models.USER_PROFILE);
+      dataCollection.removeAll(models.USER_PROFILE);
       
 
       const user = Object.assign({}, {
@@ -47,6 +47,8 @@ class UserService {
         username: response.login
       });
 
+      console.log(user)
+
       dataCollection.add(user, models.USER_PROFILE);
     }
 
@@ -57,9 +59,15 @@ class UserService {
     const requestUrl = `https://api.github.com/users/${username}/repos`;
 
     const response = await gitHubApi.find(requestUrl);
+
+    dataCollection.removeAll(models.USER_REPOSITORY);
     
-    if (response && response.hasOwnProperty('items')) {
-      const repositories = response.items.slice().map((item) => {
+    if (Array.isArray(response) && response.length) {
+
+      console.log('in collection', dataCollection.userRepositories)
+      console.log('in response', response.length)
+
+      const repositories = response.slice().map((item) => {
         const repository = {
           bio: item.bio,
           description: item.description,
@@ -74,6 +82,7 @@ class UserService {
       });
 
       dataCollection.add(repositories, models.USER_REPOSITORY);
+      console.log('after call', dataCollection.userRepositories)
     }
 
     return response;

@@ -5,6 +5,7 @@ import {observer} from 'mobx-react';
 
 import {Header, PreviewCardGrid, SearchBar} from '../../components';
 
+import models from '../../constants/models';
 import {userService} from '../../services';
 import {dataCollection} from '../../state';
 import {previewTitle} from '../../constants';
@@ -15,6 +16,7 @@ import './Home.css';
 class Home extends Component {
   constructor(props) {
     super(props);
+    this.onChangeHandler = this.onChangeHandler.bind(this);
     this.onKeyUpHandler = this.onKeyUpHandler.bind(this);
     this.onCardClickHandler = this.onCardClickHandler.bind(this);
 
@@ -23,8 +25,16 @@ class Home extends Component {
 
   @observable componentState = {
     previewTitle: previewTitle.DEFAULT,
-    searchQuery: null
+    searchQuery: ''
   };
+
+  componentWillMount() {
+    dataCollection.removeAll(models.USER_PREVIEW);
+  }
+
+  @action onChangeHandler(value) {
+    this.componentState.searchQuery = value;
+  }
 
   @action async onKeyUpHandler(e) {
     if (e.key === 'Enter') {
@@ -32,11 +42,8 @@ class Home extends Component {
         runInAction(() => {
           this.componentState.searchQuery = e.target.value;
         });
-        
 
         const searchResult = await userService.findUsers(this.componentState.searchQuery);
-
-        console.log('searchResult', searchResult)
 
         if (searchResult && searchResult.hasOwnProperty('error')) {
           runInAction(() => {
@@ -47,9 +54,14 @@ class Home extends Component {
         }
 
         runInAction(() => {
-          this.componentState.previewTitle = dataCollection.userPreviews
-            ? previewTitle.SEARCH_RESULT_TRUE
-            : previewTitle.SEARCH_RESULT_FALSE;
+          if (!dataCollection.userPreviews.length) {
+            dataCollection.removeAll(models.USER_PREVIEW);
+            this.componentState.previewTitle = previewTitle.SEARCH_RESULT_FALSE;
+            
+            return;
+          }
+          
+          this.componentState.previewTitle = previewTitle.SEARCH_RESULT_TRUE;
         });
         
 
@@ -57,33 +69,32 @@ class Home extends Component {
       }
       
       runInAction(() => {
-        this.componentState.searchQuery = null;
+        this.componentState.searchQuery = '';
+        this.componentState.previewTitle = previewTitle.DEFAULT;
+
+        dataCollection.removeAll(models.USER_PREVIEW);
       });
     }
   }
 
   @action async onCardClickHandler(username) {
-    console.log('---in card click handler---')
     const user = await userService.getUserProfile(username);
-    console.log('user', user)
 
-    const userRepos = user && user.id
-      ? await userService.getUserRepos(user.username)
-      : null;
+    if (user && user.id) {
+      const userRepos = await userService.getUserRepos(username);
 
-    console.log('userRepos', userRepos)
-
-    if (userRepos && !userRepos.error) {
-      browserHistory.push(`profile/${username}`);
-      return;
+      if (userRepos && !userRepos.error) {
+        browserHistory.push(`profile/${username}`);
+        return;
+      }
     }
-    
+
     browserHistory.push('/');
     
   }
 
   render() {
-    const users = this.componentState.searchQuery
+    const users = dataCollection.userPreviews.length
       ? dataCollection.userPreviews
       : dataCollection.defaultUserPreviews;
 
@@ -93,7 +104,11 @@ class Home extends Component {
           <Header />
         </div>
         <div className="content">
-          <SearchBar onKeyUp={this.onKeyUpHandler} />
+          <SearchBar
+            onChange={this.onChangeHandler}
+            onKeyUp={this.onKeyUpHandler}
+            value={this.componentState.searchQuery}
+          />
           <PreviewCardGrid
             title={this.componentState.previewTitle}
             users={users}

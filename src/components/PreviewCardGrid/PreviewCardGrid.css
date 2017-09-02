@@ -7,19 +7,20 @@
 }
 
 .grid {
+  width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 
 .item {
   cursor: pointer;
-  flex-basis: 20%;
-  padding: 15px;
+  flex-basis: 23%;
+  padding: 1%;
 }
 
-.card-title {
-  font-size: 12px;
+.user-preview-card-text p {
+  font-size: 30px;
   font-weight: 600;
 }

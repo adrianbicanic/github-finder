@@ -2,15 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {default as Card} from 'react-toolbox/lib/card/Card';
-import {default as CardActions} from 'react-toolbox/lib/card/CardActions';
 import {default as CardMedia} from 'react-toolbox/lib/card/CardMedia';
-import {default as CardTitle} from 'react-toolbox/lib/card/CardTitle';
-import {default as Button} from 'react-toolbox/lib/button/Button';
+import {default as CardText} from 'react-toolbox/lib/card/CardText';
 
 import './PreviewCardGrid.css';
 
 const PreviewCardGrid = (props) => {
-  console.log('typeof users', props.users);
   const users = props.users.slice();
 
   return (
@@ -29,16 +26,15 @@ const PreviewCardGrid = (props) => {
                     aspectRatio="square"
                     image={user.avatarUrl}
                   />
-                  <CardTitle
-                    subtitle={`@${user.username}`}
-                  />
+                  <CardText className="user-preview-card-text">
+                    {`@${user.username}`}
+                  </CardText>
                 </Card>
               </div>
             ))
             : null
         }
       </div>
-      
     </div>
   );
 };

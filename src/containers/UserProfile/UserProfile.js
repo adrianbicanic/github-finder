@@ -1,40 +1,36 @@
 import React, {Component} from 'react';
 import {browserHistory} from 'react-router';
-import {action, observable, runInAction} from 'mobx';
+import {action, observable, runInAction, toJS} from 'mobx';
 import {observer} from 'mobx-react';
 
-import {Header, PreviewCardGrid, SearchBar} from '../../components';
+import {Header, PreviewCardGrid, SearchBar, UserInfo, UserRepos} from '../../components';
 
 import {userService} from '../../services';
 import {dataCollection} from '../../state';
-import {previewTitle} from '../../constants';
+import {previewTitle, models} from '../../constants';
 
 import './UserProfile.css';
 
 @observer
 class UserProfile extends Component {
   componentWillMount() {
-
-    this.onBackButtonClickHandler = this.onBackButtonClickHandler.bind(this);
-  }
-
-  onBackButtonClickHandler() {
-    browserHistory.push('/');
+    if (!dataCollection.userProfile) {
+      browserHistory.push('/');
+    }
   }
 
   render() {
-    const user = dataCollection.userProfile.pop();
-
-    console.log(user);
-
     return (
       <div className="main">
         <div className="header">
           <Header
+            leftIcon="navigate_before"
             onBackButtonClick={this.onBackButtonClickHandler}
           />
         </div>
         <div className="content">
+          <UserInfo user={dataCollection.userProfile} />
+          <UserRepos repos={dataCollection.userRepositories} />
         </div>
       </div>
     );

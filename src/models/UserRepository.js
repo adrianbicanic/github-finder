@@ -9,7 +9,6 @@ class UserRepository extends Model {
 UserRepository.defaults = {
   bio: null,
   description: null,
-  followers: null,
   forks: null,
   gitHubUrl: null,
   name: null,

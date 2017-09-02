@@ -1,0 +1,28 @@
+.user-repos-item {
+  display: flex;
+  justify-content: flex-start;
+  flex-basis: 48%;
+  padding: 1%;
+}
+
+.user-repos-card-title {
+  text-align: left;
+}
+
+.user-repos-card-info {
+  display: inline-flex;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.user-repos-card-info-item {
+  display: inline-flex;
+  flex-basis: 31%;
+  padding: 1% !important;
+  vertical-align: middle;
+  margin: 10px;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 500;
+}
+

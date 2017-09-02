@@ -1,0 +1,45 @@
+.user-info-avatar {
+  flex-basis: 23%;
+  padding: 1%;
+}
+
+.user-info-fields {
+  flex-basis: 73%;
+  padding: 1%;
+}
+
+.user-info-bio {
+  width: 100%;
+  margin: 10px;
+  text-align: left;
+  font-weight: 500;
+}
+
+.user-info-bio-small {
+  display: inline-flex;
+  vertical-align: middle;
+  width: 100%;
+  margin: 10px;
+  text-align: left;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.user-info-bio-link {
+  display: inline-flex;
+  text-align: left;
+  font-size: 22px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.user-info-bio-link,
+.user-info-bio-link:focus,
+.user-info-bio-link:hover,
+.user-info-bio-link.visited {
+  color: #264348;
+}
+
+.material-icons {
+  padding-right: 15px;
+}
